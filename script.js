@@ -6,6 +6,8 @@ const websiteNameEl = document.getElementById('website-name');
 const websiteUrlEl = document.getElementById('website-url');
 const bookmarksContainer = document.getElementById('bookmarks-container');
 
+let bookmarks =[];
+
 // Show Modal, Focus on Input
 function showModal(){
   modal.classList.add('show-modal');
@@ -29,7 +31,25 @@ function validate(nameValue, urlValue){
     alert('Please provide a valid web address');
     return false;
   }
-  return true;  // if true
+  return true;  // if valid
+}
+
+// Fetch Bookmarks
+function fetchBookmarks(){
+  // get from localStorage if available
+  if(localStorage.getItem('bookmarks')){
+    bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+  } else {
+    // Create bookmarks array in localStorage
+    bookmarks = [
+      {
+        name: 'shownola-portfolio',
+        url: 'https://shownola-portfolio.shownola.net'
+      },
+    ];
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  }
+  console.log(bookmarks);
 }
 
 // Handle Data from Form
@@ -44,7 +64,19 @@ function storeBookmark(e){
   if (!validate(nameValue, urlValue)){
     return false;
   }
+  const bookmark = {
+    name: nameValue,
+    url: urlValue,
+  };
+  bookmarks.push(bookmark);
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  fetchBookmarks();
+  bookmarkForm.reset();
+  websiteNameEl.focus();
 }
 
 // Event Listener
 bookmarkForm.addEventListener('submit', storeBookmark);
+
+// On load, fetch bookmarks
+fetchBookmarks();

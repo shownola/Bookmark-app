@@ -1,6 +1,6 @@
 # README
 
-This app will allow the user to create a bookmark where you can click on the link and go directly to that website. Has localStorage functionality meaning the user can return and find the bookmarks just as they were.
+This app will allow the user to create a bookmark where you can click on the link and go directly to that website. Use of localStorage which allows you to access a Storage object and the stored data is saved across browser sessions.
 
 * User Hero pattern for SVG background
 
