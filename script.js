@@ -6,7 +6,8 @@ const websiteNameEl = document.getElementById('website-name');
 const websiteUrlEl = document.getElementById('website-url');
 const bookmarksContainer = document.getElementById('bookmarks-container');
 
-let bookmarks =[];
+// let bookmarks =[];
+let bookmarks = {};
 
 // Show Modal, Focus on Input
 function showModal(){
@@ -34,13 +35,12 @@ function validate(nameValue, urlValue){
   return true;  // if valid
 }
 
-// Build bookmarks DOM
 function buildBookmarks(){
   // Remove all bookmarks elements
   bookmarksContainer.textContent = '';
   // Build items
-  bookmarks.forEach((bookmark) => {
-    const { name, url } = bookmark;
+  Object.keys(bookmarks).forEach((id) => {
+    const { name, url } = bookmarks[id];
     const item = document.createElement('div');
     item.classList.add('item');
     const closeIcon = document.createElement('i');
@@ -64,6 +64,36 @@ function buildBookmarks(){
   });
 }
 
+// Build bookmarks DOM
+// function buildBookmarks(){
+//   // Remove all bookmarks elements
+//   bookmarksContainer.textContent = '';
+//   // Build items
+//   bookmarks.forEach((bookmark) => {
+//     const { name, url } = bookmark;
+//     const item = document.createElement('div');
+//     item.classList.add('item');
+//     const closeIcon = document.createElement('i');
+//     closeIcon.classList.add('fas', 'fa-times');
+//     closeIcon.setAttribute('title', 'Delete Bookmark');
+//     closeIcon.setAttribute('onclick', `deleteBookmark('${url}')`);
+//     // Favicon / Link container
+//     const linkInfo = document.createElement('div');
+//     linkInfo.classList.add('name');
+//     const favicon = document.createElement('img');
+//     favicon.setAttribute('src', `${url}`);
+//     favicon.setAttribute('alt', 'Favicon');
+//     const link = document.createElement('a');
+//     link.setAttribute('href', `${url}`);
+//     link.setAttribute('target', '_blank');
+//     link.textContent = name;
+//     // Append to bookmarks container
+//     linkInfo.append(favicon, link);
+//     item.append(closeIcon, linkInfo);
+//     bookmarksContainer.appendChild(item);
+//   });
+// }
+
 // Fetch Bookmarks
 function fetchBookmarks(){
   // get from localStorage if available
@@ -71,12 +101,13 @@ function fetchBookmarks(){
     bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
   } else {
     // Create bookmarks array in localStorage
-    bookmarks = [
-      {
+    const id = `https://shownola-portfolio.shownola.net`
+    bookmarks[id] = {
+
         name: 'shownola-portfolio',
-        url: 'https://shownola-portfolio.shownola.net'
-      },
-    ];
+        url: 'https://shownola-portfolio.shownola.net',
+      }
+
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   }
   buildBookmarks();
